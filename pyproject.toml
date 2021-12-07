@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "goodmorning.py"
+version = "0.1.0"
+description = ""
+authors = ["Brandl <BRANDL@users.noreply.github.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+requests = "^2.26.0"
+requests-cache = "^0.8.1"
+Jinja2 = "^3.0.3"
+python-escpos = "^2.2.0"
+PyYAML = "^6.0"
+jsonpath-ng = "^1.5.3"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
