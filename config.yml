@@ -1,0 +1,27 @@
+globals:
+  $appkey: deadbeef
+ins:
+  weather.com:
+    - requests:
+        method: 'GET'
+        url: 'https://forecast9.p.rapidapi.com/rapidapi/forecast/Berlin/summary/'
+        headers: 
+          - 'x-rapidapi-host': 'forecast9.p.rapidapi.com'
+          - 'x-rapidapi-key': 'deadbeef2'
+    - jsonpath:
+        'items': '$.forecast.items.*'
+        'forecastDate': '$.forecast.[forecastDate]'
+        'nextUpdate': '$.forecast.[nextUpdate]'
+    - template:
+        text: >
+            "{% for item in items %}
+               {{ item.weather.text }}
+            {% endfor %}" 
+outs:
+  printer:
+    - epson-pos:
+        ip: 192.168.0.1
+  email:
+    - sendgrid:
+        api-key: abcdd
+        to: me@dot.com
