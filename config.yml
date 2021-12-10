@@ -15,10 +15,10 @@ ins:
           - 'nextUpdate': '$.forecast.[nextUpdate]'
     - template:
         text: >
-            "{% for item in items %}
+            {% for item in items %}
                {{ item.date}}
                {{ item.weather.text }} {{ item.temperature.min }}-{{ item.temperature.max }}°C {{ item.wind.direction }} {{item.wind.min }}-{{ item.wind.max }}{{ item.wind.unit }}
-            {% endfor %}" 
+            {% endfor %} 
 outs:
   printer:
     - epsonpos:
