@@ -1,4 +1,4 @@
-from blocks import mods
+import blocks
 import yaml
 
 with open("config.yml", "r") as stream:
@@ -9,17 +9,19 @@ with open("config.yml", "r") as stream:
 
 print("globals", config['globals'])
 
-print("Blocks IN:")
+segments = ['ins', 'outs']
+result_block = []
+
 for key, value in config['ins'].items():
-    print(key)
+    result_flow = {}
     for step in value:
-        mod, attr = list(step.items())[0]
-        mods[mod](attr)
+        block, attr = list(step.items())[0]
+        result = blocks.blocks[block](**attr, flow=result_flow)
+        result_flow.update({'prev': result, block: result})
+    result_block.append(result_flow['prev'])
 
-print("Blocks OUT:")
 for key, value in config['outs'].items():
-    print(key,value)
-
-
-
+    for step in value:
+        block, attr = list(step.items())[0]
+        result = blocks.blocks[block](**attr, flow={'text':'\n'.join(result_block)})
 
