@@ -1,2 +1,6 @@
 .venv/
 __pycache__/
+*.sqlite
+
+# DONT EVER COMMIT API KEYS
+secrets.yml

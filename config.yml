@@ -1,5 +1,5 @@
 globals:
-  $appkey: deadbeef
+  appkey: deadbeef
 ins:
   weather.com:
     - requests:
@@ -7,7 +7,7 @@ ins:
         url: 'https://forecast9.p.rapidapi.com/rapidapi/forecast/Berlin/summary/'
         headers: 
           'x-rapidapi-host': 'forecast9.p.rapidapi.com'
-          'x-rapidapi-key': 'deadbeef'
+          'x-rapidapi-key': $appkey
     - jsonpath:
         paths: 
           - 'items': '$.forecast.items.[*]'
@@ -19,11 +19,24 @@ ins:
                {{ item.date}}
                {{ item.weather.text }} {{ item.temperature.min }}-{{ item.temperature.max }}°C {{ item.wind.direction }} {{item.wind.min }}-{{ item.wind.max }}{{ item.wind.unit }}
             {% endfor %} 
+  coinranking:
+    - requests:
+        method: 'GET'
+        url: 'https://coinranking1.p.rapidapi.com/coins'
+        headers: 
+          'x-rapidapi-host': 'coinranking1.p.rapidapi.com'
+          'x-rapidapi-key': $appkey
+    - jsonpath:
+        paths: 
+          - 'coins': '$..coins.[0:8]'
+    - template:
+        text: >
+            {% for coin in coins %}
+                {{ coin.symbol }}@{{ coin.price }}
+            {% endfor %}
 outs:
-  printer:
-    - epsonpos:
-        ip: 192.168.0.4
-  email:
-    - sendgrid:
-        api-key: abcdd
-        to: me@dot.com
+#  printer:
+#    - epsonpos:
+#        ip: 192.168.0.4
+  debug:
+    - console:

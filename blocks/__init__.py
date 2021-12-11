@@ -49,3 +49,8 @@ def epsonpos(ip:str, flow={}):
     thermal=Network(ip)
     thermal.text(flow['text'])
     thermal.cut()
+
+@add_block
+def console(flow={}):
+    print(flow['text'])
+
