@@ -14,6 +14,7 @@ def add_block(func):
 def requests(method: str, url: str, headers: list, flow={}):
     session = CachedSession('req_cache', expire_after=3600, backend='sqlite')
     response = session.request(method, url, headers=headers)
+    print(response.json())
     return response.json()
 
 @add_block
@@ -39,7 +40,6 @@ def jsonpath(paths: list, flow={}):
 
 @add_block
 def template(text:str, flow={}):
-    print(text, flow['prev'])
     template = Environment(loader=BaseLoader()).from_string(text)
     return template.render(**flow['prev'])
 

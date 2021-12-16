@@ -1,5 +1,6 @@
 globals:
-  appkey: deadbeef
+  rapidapikey: deadbeef
+  bitpandakey: secret
 ins:
   weather.com:
     - requests:
@@ -7,7 +8,7 @@ ins:
         url: 'https://forecast9.p.rapidapi.com/rapidapi/forecast/Berlin/summary/'
         headers: 
           'x-rapidapi-host': 'forecast9.p.rapidapi.com'
-          'x-rapidapi-key': $appkey
+          'x-rapidapi-key': $rapidapikey
     - jsonpath:
         paths: 
           - 'items': '$.forecast.items.[*]'
@@ -25,7 +26,7 @@ ins:
         url: 'https://coinranking1.p.rapidapi.com/coins'
         headers: 
           'x-rapidapi-host': 'coinranking1.p.rapidapi.com'
-          'x-rapidapi-key': $appkey
+          'x-rapidapi-key': $rapidapikey
     - jsonpath:
         paths: 
           - 'coins': '$..coins.[0:8]'
@@ -34,6 +35,20 @@ ins:
             {% for coin in coins %}
                 {{ coin.symbol }}@{{ coin.price }}
             {% endfor %}
+  bitpanda:
+    - requests:
+        method: 'GET'
+        url: 'https://api.bitpanda.com/v1/wallets'
+        headers: 
+          'X-API-KEY': $bitpandakey
+    - jsonpath:
+        paths: 
+          - 'wallets': '$..attributes'
+    - template:
+        text: >
+            {% if False %}{% for wallet in wallets %}
+                {{ wallet.cryptocoin_symbol }}@{{ wallet.balance }}
+            {% endfor %}{% endif %}
 outs:
 #  printer:
 #    - epsonpos:
